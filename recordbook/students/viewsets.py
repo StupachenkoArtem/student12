@@ -1,5 +1,6 @@
 from django.forms import model_to_dict
 from rest_framework import viewsets
+from rest_framework.decorators import action
 from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveUpdateAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -53,3 +54,9 @@ class GroupAPIView(APIView):
 class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
+
+    @action(methods=['get'], detail=False)
+    def groups(self, request):
+        groups = Group.objects.all()
+        return Response({'groups': [f'{gr.course}-{gr.name}' for gr in groups]})
+
