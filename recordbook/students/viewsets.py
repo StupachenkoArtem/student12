@@ -56,7 +56,7 @@ class GroupAPIView(APIView):
 
 class StudentViewSet(viewsets.ModelViewSet):
     pagination_class = StudentAPIPagination
-    permission_classes = (IsOwnerOrReadOnly, )
+    permission_classes = (IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly, )
     # queryset = Student.objects.all()
     # serializer_class = StudentSerializer
 
