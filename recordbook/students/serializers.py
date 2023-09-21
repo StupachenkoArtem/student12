@@ -36,3 +36,16 @@ def decode():
     serializer = StudentSerializer(data=data)
     serializer.is_valid()
     print(serializer.validated_data)
+
+
+class StudentDetailSerializer(serializers.ModelSerializer):
+
+    group_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Student
+        fields = '__all__'
+
+    def get_group_name(self, obj):
+        print(obj)
+        return f'{obj.group.course}-{obj.group.name}'

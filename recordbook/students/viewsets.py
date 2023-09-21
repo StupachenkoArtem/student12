@@ -5,7 +5,7 @@ from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveUpda
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Student, Group
-from .serializers import StudentSerializer
+from .serializers import StudentSerializer, StudentDetailSerializer
 
 
 # class StudentAPIView(ListAPIView):
@@ -15,21 +15,21 @@ from .serializers import StudentSerializer
 # class StudentAPIView(ListCreateAPIView):
 #     queryset = Student.objects.all()
 #     serializer_class = StudentSerializer
-    # def get(self, request):
-    #     st = Student.objects.all().values()
-    #     return Response({'students': list(st)})
+# def get(self, request):
+#     st = Student.objects.all().values()
+#     return Response({'students': list(st)})
 
-    # def post(self, request):
-    #     new_st = Student.objects.create(
-    #         first_name=request.data['first_name'],
-    #         last_name=request.data['last_name'],
-    #         middle_name=request.data['middle_name'],
-    #         is_study=request.data['is_study'],
-    #         group_id=request.data['group_id'],
-    #         slug=request.data['slug'],
-    #         photo=request.data['photo']
-    #     )
-    #     return Response({'group': model_to_dict(new_st)})
+# def post(self, request):
+#     new_st = Student.objects.create(
+#         first_name=request.data['first_name'],
+#         last_name=request.data['last_name'],
+#         middle_name=request.data['middle_name'],
+#         is_study=request.data['is_study'],
+#         group_id=request.data['group_id'],
+#         slug=request.data['slug'],
+#         photo=request.data['photo']
+#     )
+#     return Response({'group': model_to_dict(new_st)})
 
 
 class GroupAPIView(APIView):
@@ -53,7 +53,12 @@ class GroupAPIView(APIView):
 
 class StudentViewSet(viewsets.ModelViewSet):
     # queryset = Student.objects.all()
-    serializer_class = StudentSerializer
+    # serializer_class = StudentSerializer
+
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            return StudentDetailSerializer
+        return StudentSerializer
 
     def get_queryset(self):
         group = self.request.GET.get('group', '')

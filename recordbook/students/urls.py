@@ -6,7 +6,7 @@ from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register(r'students', StudentViewSet, basename='students')
-print(router.urls)
+# print(router.urls)
 
 urlpatterns = [
     # path('', index, name='home'),
