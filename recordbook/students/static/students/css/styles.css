@@ -1,0 +1,189 @@
+.body {
+    font-family: 'Arial';
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    color: #444;
+}
+
+.header {
+    background: #3F4137;
+    height: 60px;
+}
+
+.header ul{
+    color: green;
+    font-size: 24px;
+    padding-left: 16px;
+}
+
+.header ul li{
+    display: inline-block;
+}
+
+.header ul li a{
+color: white;
+}
+
+.list-pages {
+    text-align: center;
+    margin: 0 0 20px 0;
+}
+
+.list-pages ul {
+    margin: 20px 0 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.list-pages ul li {
+    display: inline-block;
+    margin: 0 20px 0 0;
+}
+
+.list-pages .page-num, .page-num-selected {
+    display: inline-block;
+    width: 60px;
+    height: 44px;
+    padding: 16px 0 0 0;
+    border: 1px solid #d0d0d0;
+    border-radius: 30px;
+    background-color: rgb(117 190 218 / 0.5);;
+}
+
+.list-pages a {
+    color: #000;
+    font-size: 24px;
+    text-decoration: none;
+}
+
+.list-pages .page-num:hover {
+    box-shadow: 3px 3px 1px #d0d0d0;
+}
+
+.list-pages .page-num-selected {
+    border: none;
+    color: #000;
+    font-size: 20px;
+}
+
+.list-pages .page-num-selected:hover {
+    box-shadow: none;
+}
+
+a:link {
+    color: black;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.form-input {
+    width: 200px;
+    font-size: 16px;
+}
+
+.form-label {
+    display: inline-block;
+    min-width: 75px;
+    vertical-align: top;
+}
+
+.form-error ul {
+    list-style: none;
+    padding: 0;
+    color: #CC0000;
+}
+
+.warning a{
+    color: red;
+}
+
+.center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+}
+
+.card {
+    border: solid 1px #f2f2f2;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: rgb(11 43 158 / 15%) 0px 6px 20px -6px;
+    min-width: 400px;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.btn {
+    padding: 0.25rem 0.75rem;
+    border-radius: 5px;
+    background-color: #ffffff;
+    border: solid 1px #ffffff;
+    color: #212121;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 1rem;
+    min-width: 6rem;
+    text-align: center;
+}
+
+.btn:hover {
+    text-decoration: none;
+}
+
+.btn-outline {
+    border: solid 1px #ee394c;
+}
+
+.btn-primary {
+    border: solid 1px #ee394c;
+    background-color: #ee394c;
+    color: #ffffff;
+}
+
+.page-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.submit-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 8px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.grade-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+}
+
+.table-header {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.date-header {
+  font-weight: bold;
+}
+
+.student-link {
+  color: blue;
+  text-decoration: none;
+}
+
+.mark-cell {
+  text-align: center;
+  padding: 6px;
+}

@@ -1,0 +1,40 @@
+{% extends 'students/base.html' %}
+
+{% block content %}
+<h1 class="page-title">{{ title }}</h1>
+<br>
+<form method="get" action="{% url 'gradebook' %}">
+    {{ group_form }}
+    <button type="submit" class="submit-button">Выбрать</button>
+</form>
+{% if group %}
+    <form method="get" action="{% url 'gradebook' %}">
+        {{ subj_form }}
+        <input type="hidden" name="group" value="{{ group }}" />
+        <button type="submit" class="submit-button">Выбрать</button>
+    </form>
+{% endif %}
+<br>
+{% if group and subject %}
+    <table class="grade-table">
+        <tr>
+            <th class="table-header">Ф.И.О.</th>
+            {% for d in dates %}
+            <th class="date-header">{{ d | date:'d-m-y' }}</th>
+            {% endfor %}
+        </tr>
+        {% for st in studs %}
+        <tr>
+            <td>
+                <a href="{% url 'addmark' %}?student={{st.0}}&subject={{subject}}&date={%now 'd.m.Y' %}" class="student-link">
+                {{ st.1 }}
+                </a>
+            </td>
+            {% for m in st.2 %}
+            <td class="mark-cell">{{m}}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+{% endif %}
+{% endblock %}

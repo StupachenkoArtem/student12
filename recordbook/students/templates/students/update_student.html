@@ -1,0 +1,15 @@
+{% extends 'students/base.html' %}
+
+{% block content %}
+<div class="center">
+    <form action="{% url 'update_student' st.id %}" class="card" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <h2>Изменение студента</h2>
+        <p class="form-buttons">
+            <input type="submit" class="btn btn-primary" value="Сохранить">
+            <a href="{{ st.get_absolute_url }}" class="btn btn-outline">Отмена</a>
+        </p>
+    </form>
+</div>
+{% endblock %}
