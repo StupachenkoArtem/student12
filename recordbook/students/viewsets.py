@@ -52,8 +52,15 @@ class GroupAPIView(APIView):
 
 
 class StudentViewSet(viewsets.ModelViewSet):
-    queryset = Student.objects.all()
+    # queryset = Student.objects.all()
     serializer_class = StudentSerializer
+
+    def get_queryset(self):
+        group = self.request.GET.get('group', '')
+        if group:
+            return Student.objects.filter(group_id=group)
+        else:
+            return Student.objects.all()
 
     @action(methods=['get'], detail=False)
     def groups(self, request):
