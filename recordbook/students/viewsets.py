@@ -2,6 +2,7 @@ from django.forms import model_to_dict
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.generics import ListAPIView, ListCreateAPIView, RetrieveUpdateAPIView
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Student, Group
@@ -54,6 +55,7 @@ class GroupAPIView(APIView):
 
 class StudentViewSet(viewsets.ModelViewSet):
     pagination_class = StudentAPIPagination
+    permission_classes = (IsAuthenticatedOrReadOnly, )
     # queryset = Student.objects.all()
     # serializer_class = StudentSerializer
 
