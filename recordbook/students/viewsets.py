@@ -60,3 +60,10 @@ class StudentViewSet(viewsets.ModelViewSet):
         groups = Group.objects.all()
         return Response({'groups': [f'{gr.course}-{gr.name}' for gr in groups]})
 
+    @action(methods=['get'], detail=True)
+    def group(self, request, pk=None):
+        group = Group.objects.filter(pk=pk).first()
+        if group:
+            return Response({'group': f'{group.course}-{group.name}'})
+        else:
+            return Response({'group': 'Группа не найдена'})
