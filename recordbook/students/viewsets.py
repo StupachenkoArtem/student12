@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Student, Group
-from .permissions import IsAdminOrReadOnly
+from .permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly
 from .serializers import StudentSerializer, StudentDetailSerializer
 from .utils import StudentAPIPagination
 
@@ -56,7 +56,7 @@ class GroupAPIView(APIView):
 
 class StudentViewSet(viewsets.ModelViewSet):
     pagination_class = StudentAPIPagination
-    permission_classes = (IsAdminOrReadOnly, )
+    permission_classes = (IsOwnerOrReadOnly, )
     # queryset = Student.objects.all()
     # serializer_class = StudentSerializer
 
