@@ -24,6 +24,7 @@ from students.views import groups
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('students.urls')),
+    path('api/v1/auth/', include('rest_framework.urls'))
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
