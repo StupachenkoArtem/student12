@@ -6,6 +6,7 @@ from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register(r'students', StudentViewSet, basename='students')
+router.register(r'groups', StudentViewSet, basename='groups')
 # print(router.urls)
 
 urlpatterns = [
@@ -30,5 +31,6 @@ urlpatterns = [
     # path('api/v1/students/', StudentViewSet.as_view({'get': 'list'})),
     # path('api/v1/student/<int:pk>/', StudentViewSet.as_view({'put': 'update'})),
     path('api/v1/', include(router.urls)),
+    path('api/')
 ]
 

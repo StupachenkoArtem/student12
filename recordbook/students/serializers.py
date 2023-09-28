@@ -6,7 +6,7 @@ from .models import Student
 
 
 class StudentSerializer(serializers.ModelSerializer):
-    user = serializers.HiddenField(default=serializers.CurrentUserDefault)
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
         model = Student
@@ -41,8 +41,9 @@ def decode():
 
 
 class StudentDetailSerializer(serializers.ModelSerializer):
-
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     group_name = serializers.SerializerMethodField()
+    username = serializers.SerializerMethodField()
 
     class Meta:
         model = Student
@@ -51,3 +52,7 @@ class StudentDetailSerializer(serializers.ModelSerializer):
     def get_group_name(self, obj):
         print(obj)
         return f'{obj.group.course}-{obj.group.name}'
+
+    def get_username(self, obj):
+        print(obj)
+        return obj.user.get_username()

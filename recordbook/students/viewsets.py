@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from .models import Student, Group
 from .permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly, UserPermission
 from .serializers import StudentSerializer, StudentDetailSerializer
-from .utils import StudentAPIPagination
+from .utils import StudentAPIPagination, GroupsAPIPagination
 
 
 # class StudentAPIView(ListAPIView):
@@ -52,7 +52,12 @@ class GroupAPIView(APIView):
 # class StudentAPIDetailView(RetrieveUpdateAPIView):
 #     queryset = Student.objects.all()
 #     serializer_class = StudentSerializer
+class GroupsViewSet(viewsets.ModelViewSet):
+    pagination_class = GroupsAPIPagination
+    permission_classes = (UserPermission, )
 
+    def get_serializer_class(self):
+        if self.action == 'retrieve' or self.action == 'create':
 
 class StudentViewSet(viewsets.ModelViewSet):
     pagination_class = StudentAPIPagination
@@ -61,7 +66,7 @@ class StudentViewSet(viewsets.ModelViewSet):
     # serializer_class = StudentSerializer
 
     def get_serializer_class(self):
-        if self.action == 'retrieve':
+        if self.action == 'retrieve' or self.action == 'create':
             return StudentDetailSerializer
         return StudentSerializer
 
