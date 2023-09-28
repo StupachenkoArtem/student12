@@ -6,9 +6,11 @@ from .models import Student
 
 
 class StudentSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault)
+
     class Meta:
         model = Student
-        fields = ('last_name', 'first_name', 'middle_name', 'group', 'slug')
+        fields = ('last_name', 'first_name', 'middle_name', 'group', 'slug', 'photo', 'user')
 
 
 class StudentModel:
