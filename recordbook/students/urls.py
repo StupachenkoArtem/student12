@@ -1,12 +1,12 @@
 from django.urls import path, include
 from .models import Gradebook
 from .views import *
-from .viewsets import GroupAPIView, StudentViewSet
+from .viewsets import GroupAPIView, StudentViewSet, GroupViewSet
 from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register(r'students', StudentViewSet, basename='students')
-router.register(r'groups', StudentViewSet, basename='groups')
+router.register(r'groups', GroupViewSet, basename='groups')
 # print(router.urls)
 
 urlpatterns = [

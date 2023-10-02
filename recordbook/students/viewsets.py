@@ -54,7 +54,8 @@ class GroupAPIView(APIView):
 #     serializer_class = StudentSerializer
 
 
-class GroupsViewSet(viewsets.ModelViewSet):
+class GroupViewSet(viewsets.ModelViewSet):
+    queryset = Group.objects.all()
     pagination_class = GroupsAPIPagination
     permission_classes = (UserPermission, )
 

@@ -48,7 +48,7 @@ def decode():
     print(serializer.validated_data)
 
 
-class GroupsDetailSerializer(serializers.ModelSerializer):
+class GroupDetailSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     group_name = serializers.SerializerMethodField()
     username = serializers.SerializerMethodField()
