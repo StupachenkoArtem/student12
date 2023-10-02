@@ -2,7 +2,15 @@ import io
 from rest_framework import serializers
 from rest_framework.parsers import JSONParser
 from rest_framework.renderers import JSONRenderer
-from .models import Student
+from .models import Student, Group
+
+
+class GroupSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
+    class Meta:
+        model = Group
+        fields = ('name', 'course')
 
 
 class StudentSerializer(serializers.ModelSerializer):
@@ -38,6 +46,19 @@ def decode():
     serializer = StudentSerializer(data=data)
     serializer.is_valid()
     print(serializer.validated_data)
+
+
+class GroupsDetailSerializer(serializers.ModelSerializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    group_name = serializers.SerializerMethodField()
+    username = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Group
+        fields = '__all__'
+
+    def get_groupname(self, obj):
+        return obj.user.get_username
 
 
 class StudentDetailSerializer(serializers.ModelSerializer):

@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Student, Group
 from .permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly, UserPermission
-from .serializers import StudentSerializer, StudentDetailSerializer
+from .serializers import StudentSerializer, StudentDetailSerializer, GroupsDetailSerializer, GroupSerializer
 from .utils import StudentAPIPagination, GroupsAPIPagination
 
 
@@ -52,12 +52,17 @@ class GroupAPIView(APIView):
 # class StudentAPIDetailView(RetrieveUpdateAPIView):
 #     queryset = Student.objects.all()
 #     serializer_class = StudentSerializer
+
+
 class GroupsViewSet(viewsets.ModelViewSet):
     pagination_class = GroupsAPIPagination
     permission_classes = (UserPermission, )
 
     def get_serializer_class(self):
         if self.action == 'retrieve' or self.action == 'create':
+            return GroupsDetailSerializer
+        return GroupSerializer
+
 
 class StudentViewSet(viewsets.ModelViewSet):
     pagination_class = StudentAPIPagination
