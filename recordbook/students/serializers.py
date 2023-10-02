@@ -58,7 +58,7 @@ class GroupDetailSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_group_name(self, obj):
-        return f'{obj.course}-{obj.name}'
+        return f'{obj.course}-{obj.name}-{obj.enrollment_year}'
 
 
 class StudentDetailSerializer(serializers.ModelSerializer):
@@ -77,3 +77,4 @@ class StudentDetailSerializer(serializers.ModelSerializer):
     def get_username(self, obj):
         print(obj)
         return obj.user.get_username()
+

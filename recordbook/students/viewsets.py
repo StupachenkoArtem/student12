@@ -71,6 +71,11 @@ class GroupViewSet(viewsets.ModelViewSet):
         else:
             return Group.objects.all()
 
+    @action(methods=['get'], detail=True)
+    def students(self, request, pk=None):
+        students = Student.objects.filter(group_id=pk)
+        return Response({'students': [f'{st.first_name}-{st.last_name}' for st in students]})
+
 
 class StudentViewSet(viewsets.ModelViewSet):
     pagination_class = StudentAPIPagination
