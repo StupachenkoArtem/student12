@@ -35,18 +35,18 @@ from .utils import StudentAPIPagination, GroupsAPIPagination
 #     return Response({'group': model_to_dict(new_st)})
 
 
-class GroupAPIView(APIView):
-    def get(self, request):
-        gr = Group.objects.all().values()
-        return Response({'groups': list(gr)})
-
-    def post(self, request):
-        new_gr = Group.objects.create(
-            name=request.data['name'],
-            course=request.data['course'],
-            enrollment_year=request.data['enrollment_year']
-        )
-        return Response({'group': model_to_dict(new_gr)})
+# class GroupAPIView(APIView):
+#     def get(self, request):
+#         gr = Group.objects.all().values()
+#         return Response({'groups': list(gr)})
+#
+#     def post(self, request):
+#         new_gr = Group.objects.create(
+#             name=request.data['name'],
+#             course=request.data['course'],
+#             enrollment_year=request.data['enrollment_year']
+#         )
+#         return Response({'group': model_to_dict(new_gr)})
 
 
 # class StudentAPIDetailView(RetrieveUpdateAPIView):
@@ -55,7 +55,7 @@ class GroupAPIView(APIView):
 
 
 class GroupViewSet(viewsets.ModelViewSet):
-    queryset = Group.objects.all()
+    # queryset = Group.objects.all()
     pagination_class = GroupsAPIPagination
     permission_classes = (UserPermission, )
 
@@ -63,6 +63,13 @@ class GroupViewSet(viewsets.ModelViewSet):
         if self.action == 'retrieve' or self.action == 'create':
             return GroupsDetailSerializer
         return GroupSerializer
+
+    def get_queryset(self):
+        course = self.request.GET.get('course', '')
+        if course:
+            return Student.objects.filter(course=course)
+        else:
+            return Student.objects.all()
 
 
 class StudentViewSet(viewsets.ModelViewSet):

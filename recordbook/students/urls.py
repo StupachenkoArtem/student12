@@ -1,7 +1,7 @@
 from django.urls import path, include
 from .models import Gradebook
 from .views import *
-from .viewsets import GroupAPIView, StudentViewSet, GroupViewSet
+from .viewsets import StudentViewSet, GroupViewSet
 from rest_framework import routers
 
 router = routers.DefaultRouter()
@@ -26,7 +26,7 @@ urlpatterns = [
     path('gradebook/', Gradebook.as_view(), name='gradebook'),
     path('addmark/', AddMark.as_view(), name='addmark'),
     # path('api/v1/students/', StudentAPIView.as_view()),
-    path('api/v1/groups/', GroupAPIView.as_view()),
+    # path('api/v1/groups/', GroupAPIView.as_view()),
     # path('api/v1/student/<int:pk>/', StudentAPIDetailView.as_view()),
     # path('api/v1/students/', StudentViewSet.as_view({'get': 'list'})),
     # path('api/v1/student/<int:pk>/', StudentViewSet.as_view({'put': 'update'})),
