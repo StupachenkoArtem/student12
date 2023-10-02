@@ -31,6 +31,6 @@ urlpatterns = [
     # path('api/v1/students/', StudentViewSet.as_view({'get': 'list'})),
     # path('api/v1/student/<int:pk>/', StudentViewSet.as_view({'put': 'update'})),
     path('api/v1/', include(router.urls)),
-    path('api/')
+    # path('api/')
 ]
 

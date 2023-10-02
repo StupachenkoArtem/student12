@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Student, Group
 from .permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly, UserPermission
-from .serializers import StudentSerializer, StudentDetailSerializer, GroupsDetailSerializer, GroupSerializer
+from .serializers import StudentSerializer, StudentDetailSerializer, GroupDetailSerializer, GroupSerializer
 from .utils import StudentAPIPagination, GroupsAPIPagination
 
 
@@ -61,15 +61,15 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         if self.action == 'retrieve' or self.action == 'create':
-            return GroupsDetailSerializer
+            return GroupDetailSerializer
         return GroupSerializer
 
     def get_queryset(self):
         course = self.request.GET.get('course', '')
         if course:
-            return Student.objects.filter(course=course)
+            return Group.objects.filter(course=course)
         else:
-            return Student.objects.all()
+            return Group.objects.all()
 
 
 class StudentViewSet(viewsets.ModelViewSet):

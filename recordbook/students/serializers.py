@@ -6,7 +6,7 @@ from .models import Student, Group
 
 
 class GroupSerializer(serializers.ModelSerializer):
-    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    # user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
         model = Group
@@ -49,16 +49,16 @@ def decode():
 
 
 class GroupDetailSerializer(serializers.ModelSerializer):
-    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    # user = serializers.HiddenField(default=serializers.CurrentUserDefault())
     group_name = serializers.SerializerMethodField()
-    username = serializers.SerializerMethodField()
+    # username = serializers.SerializerMethodField()
 
     class Meta:
         model = Group
         fields = '__all__'
 
-    def get_groupname(self, obj):
-        return obj.user.get_username
+    def get_group_name(self, obj):
+        return f'{obj.course}-{obj.name}'
 
 
 class StudentDetailSerializer(serializers.ModelSerializer):
