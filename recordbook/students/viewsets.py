@@ -66,8 +66,11 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         course = self.request.GET.get('course', '')
-        if course:
-            return Group.objects.filter(course=course)
+        group = self.request.GET.get('group', '')
+        print(f'{course= }')
+        print(f'{group= }')
+        if course or group:
+            return Group.objects.filter(course=course, name=group)
         else:
             return Group.objects.all()
 
