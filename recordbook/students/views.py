@@ -1,15 +1,15 @@
 from django.contrib.auth import logout, login
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.urls import reverse_lazy, reverse
-from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
+from django.views.generic import ListView, DetailView, \
+    CreateView, DeleteView, UpdateView
 from .filters import StudentFilter
 from .models import Student
-from django.shortcuts import get_object_or_404
-from .forms import AddStudentForm, RegisterUserForm, LoginUserForm, FilterStudentForm, ChooseGroupForm, \
+from .forms import AddStudentForm, LoginUserForm, ChooseGroupForm, \
     ChooseSubjectForm, AddMarkForm
 from .utils import menu, DataMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -43,7 +43,8 @@ def groups(request, group):
 
 
 def about(request):
-    return render(request, 'students/about.html', {'menu': menu, 'title': 'О сайте'})
+    return render(request, 'students/about.html',
+                  {'menu': menu, 'title': 'О сайте'})
 
 
 def students(request):
@@ -58,9 +59,11 @@ class ShowStudent(DataMixin, DetailView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         auth = self.request.user.is_authenticated
-        c_def = self.get_user_context(title=kwargs['object'].last_name, auth=auth)
+        c_def = \
+            self.get_user_context(title=kwargs['object'].last_name, auth=auth)
         print(kwargs['object'].last_name)
         return {**context, **c_def}
+
     model = Student
     template_name = 'students/student.html'
     slug_url_kwarg = 'stud_slug'
@@ -93,7 +96,7 @@ class RegisterUser(DataMixin, CreateView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title="Регистрация")
-        return {** context, **c_def}
+        return {**context, **c_def}
 
 
 class LoginUser(DataMixin, LoginView):
@@ -160,11 +163,15 @@ class Gradebook(DataMixin, ListView):
                 marks = [''] * len(dates)
                 for sub in st.gradebook_set.filter(subject=subject):
                     marks[dates.index(sub.date)] = sub.mark
-                studs.append((st.pk, f'{st.last_name} {st.first_name[0]}.{st.middle_name[0]}.', marks))
+                studs.append((st.pk, f'{st.last_name}'
+                                     f' {st.first_name[0]}.'
+                                     f'{st.middle_name[0]}.', marks))
         c_def = self.get_user_context(title='Журнал успеваемости',
                                       auth=auth,
-                                      group_form=ChooseGroupForm(self.request.GET),
-                                      subj_form=ChooseSubjectForm(self.request.GET, group=group),
+                                      group_form=ChooseGroupForm(self.request.
+                                                                 GET),
+                                      subj_form=ChooseSubjectForm
+                                      (self.request.GET, group=group),
                                       group=group,
                                       subject=subject,
                                       dates=dates,
