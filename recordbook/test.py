@@ -1,6 +1,8 @@
 import unittest
+from django.urls import reverse
 from my_sum import sum
 from fractions import Fraction
+from rest_framework.test import APITestCase
 
 
 class TestSum(unittest.TestCase):
@@ -25,15 +27,17 @@ class TestSum(unittest.TestCase):
         with self.assertRaises(TypeError):
             result = sum(data)
 
+    def test_calculate_average(self):
+        numbers = [1, 2, 3, 4, 5]
+        result = self.calculate_average(numbers)
+        self.assertEqual(result, 3.0)
+
     def calculate_average(self, numbers):
         if len(numbers) == 0:
             return 0
         return sum(numbers) / len(numbers)
 
-    numbers = [1, 2, 3, 4, 5]
-    result = calculate_average(numbers)
-    print(result)
-
 
 if __name__ == '__main__':
     unittest.main()
+
