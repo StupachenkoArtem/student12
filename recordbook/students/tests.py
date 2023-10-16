@@ -7,28 +7,29 @@ from students.models import Group, Student
 from students.serializers import StudentSerializer
 
 
-def calc(a, b, c):
-    if c == '+':
-        return a + b
-    if c == '-':
-        return a - b
-    if c == '*':
-        return a * b
+# def calc(a, b, c):
+#     if c == '+':
+#         return a + b
+#     if c == '-':
+#         return a - b
+#     if c == '*':
+#         return a * b
 
 
-class LogicTestCase(TestCase):
-    def test_plus(self):
-        result = calc(5, 7, '+')
-        self.assertEqual(12, result)
-
-    def test_minus(self):
-        result = calc(5, 7, '-')
-        self.assertEqual(-2, result)
+# class LogicTestCase(TestCase):
+#     def test_plus(self):
+#         result = calc(5, 7, '+')
+#         self.assertEqual(12, result)
+#
+#     def test_minus(self):
+#         result = calc(5, 7, '-')
+#         self.assertEqual(-2, result)
 
 
 class StudentsApiTestCase(APITestCase):
     def setUp(self):
         self.user1 = User.objects.create_superuser(username='Flitz', password='Csdmfaceit0')
+        self.user2 = User.objects.create_user(username='Flitz14', password='Csdmfaceit0')
         self.group1 = Group.objects.create(name='43', course='1', enrollment_year='2023')
         self.student1 = Student.objects.create(first_name='Иван', last_name='Зернов', middle_name='Иванович', email='ivan@mail.ru',
                                           group_id=self.group1.id, slug='zernov', user=self.user1)
@@ -44,7 +45,23 @@ class StudentsApiTestCase(APITestCase):
         self.assertEqual(serializer_data, response.data['results'])
         # print(f'{response.data}')
 
-    def est_delete(self):
+    def test_delete(self):
         self.client.force_login(self.user1)
-        response = self.client.delete(self.students_url)
+        response = self.client.delete(self.student_url)
         self.assertEqual(status.HTTP_204_NO_CONTENT, response.status_code)
+
+    def test_post_student(self):
+        self.client.force_login(self.user1)
+        with open("students/scr5.png", 'rb') as pict:
+            data = {
+                'first_name': 'Екатерина',
+                'last_name': 'Смирнова',
+                'middle_name': 'Николаевна',
+                'email': 'katya@mail.ru',
+                'group': self.group1.id,
+                'slug': 'smirnova1',
+                'photo': pict,
+                'user': self.user1.id
+            }
+            response = self.client.post(self.students_url, data)
+        self.assertEqual(status.HTTP_201_CREATED, response.status_code)
