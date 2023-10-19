@@ -149,3 +149,11 @@ class BasicTests(TestCase):
 
         self.updatestudent_url = reverse('update_student', args=['1'])
         self.addstudent_url = reverse('addstudent')
+
+    def test_string(self):
+        group = Group(
+            name='44',
+            course='2',
+            enrollment_year='2022'
+        )
+        self.assertEqual(str(group), f'{group.course}-{group.name}')
