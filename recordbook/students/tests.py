@@ -157,3 +157,36 @@ class BasicTests(TestCase):
             enrollment_year='2022'
         )
         self.assertEqual(str(group), f'{group.course}-{group.name}')
+
+    def test_string_student(self):
+        student = Student(
+            first_name='Иван',
+            last_name='Зернов',
+            middle_name='Иванович',
+            email='ivan@mail.ru',
+            group_id=self.group1.id,
+            slug='zernov',
+            user=self.user1
+        )
+        self.assertEqual(str(student), f'{student.last_name}')
+
+    def test_group_content(self):
+        self.assertEqual(f'{self.group1.name}', '43')
+        self.assertEqual(f'{self.group1.course}', '1')
+        self.assertEqual(f'{self.group1.enrollment_year}', '2023')
+
+    def test_student_content(self):
+        self.assertEqual(f'{self.student1.first_name}', 'Иван')
+        self.assertEqual(f'{self.student1.last_name}', 'Зернов')
+        self.assertEqual(f'{self.student1.middle_name}', 'Иванович')
+        self.assertEqual(f'{self.student1.email}', 'ivan@mail.ru')
+        self.assertEqual(f'{self.student1.group_id}', str(self.group1.id))
+        self.assertEqual(f'{self.student1.slug}', 'zernov')
+
+    def test_student_list_view(self):
+        response = self.client.get(reverse('home'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Иван')
+        self.assertContains(response, 'ЗЕРНОВ')
+        # print(response.rendered_content) # TemplateResponse
+        self.assertTemplateUsed(response, 'students/index.html')
