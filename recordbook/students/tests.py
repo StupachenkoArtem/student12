@@ -1,10 +1,13 @@
+from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
 from django.test import TestCase
-from django.urls import reverse
+from django.urls import reverse, resolve
 from rest_framework import status
 from rest_framework.test import APITestCase
 from students.models import Group, Student
 from students.serializers import StudentSerializer
+from students.views import teachers, StudentHome, ShowStudent
+from django.test import SimpleTestCase
 
 
 def calc(a, b, c):
@@ -104,3 +107,45 @@ class StudentSerializerTestCase(TestCase):
             }
         ]
         self.assertEqual(expected_data, serializer_data)
+
+
+class TestUrls(SimpleTestCase):
+
+    def test_list_url_teachers(self):
+        url = reverse('teachers')
+        self.assertEqual(resolve(url).func, teachers)
+
+    def test_list_url_home(self):
+        url = reverse('home')
+        self.assertEqual(resolve(url).func.view_class, StudentHome)
+
+    def test_list_url_student(self):
+        url = reverse('student', args=['smirnov'])
+        self.assertEqual(resolve(url).func.view_class, ShowStudent)
+
+
+class BasicTests(TestCase):
+
+    def setUp(self):
+        self.user1 = get_user_model().objects.create_user(
+            username='testuser',
+            email='test@email.com',
+            password='secret')
+
+        self.group1 = Group.objects.create(
+            name='43',
+            course='1',
+            enrollment_year='2023')
+
+        self.student1 = Student.objects.create(
+            first_name='Иван',
+            last_name='Зернов',
+            middle_name='Иванович',
+            email='ivan@mail.ru',
+            group_id=self.group1.id,
+            slug='zernov',
+            user=self.user1
+        )
+
+        self.updatestudent_url = reverse('update_student', args=['1'])
+        self.addstudent_url = reverse('addstudent')
