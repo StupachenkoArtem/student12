@@ -190,3 +190,71 @@ class BasicTests(TestCase):
         self.assertContains(response, 'ЗЕРНОВ')
         # print(response.rendered_content) # TemplateResponse
         self.assertTemplateUsed(response, 'students/index.html')
+
+    def test_student_detail_ciew(self):
+        response = self.client.get('/student/zernov/')
+        no_response = self.client.get('/student/grubov/')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(no_response.status_code, 404)
+        self.assertContains(response, 'Иван')
+        self.assertTemplateUsed(response, 'students/student.html')
+
+    def test_get_absolute_url(self):
+        self.assertEquals(self.student1.get_absolute_url(), '/student/zernov/')
+
+    def test_student_create_view(self):
+        self.client.force_login(self.user1)
+        self.assertEquals(Student.objects.all().count(), 1)
+        with open("students/scr5.png", 'rb') as pict:
+            data = {
+                'first_name': 'Екатерина',
+                'last_name': 'Смирнова',
+                'middle_name': 'Николаевна',
+                'email': 'katya@mail.ru',
+                'birth_date': '2000-10-18',
+                'is_study': True,
+                'group': self.group1.id,
+                'slug': 'smirnova',
+                'photo': pict,
+                'user': self.user1.id
+            }
+            response = self.client.post(self.addstudent_url, data)
+        self.assertEqual(status.HTTP_302_FOUND, response.status_code)
+        self.assertEquals(Student.objects.filter(last_name='Смирнова').count(), 1)
+        self.assertEqual(Student.objects.get(slug='smirnova').last_name, 'Смирнова')
+        self.assertEquals(Student.objects.all().count(), 2)
+
+    def test_negative_student_create_view(self):
+        self.client.force_login(self.user1)
+        self.assertEquals(Student.objects.all().count(), 1)
+        with open("students/scr5.png", 'rb') as pict:
+            data = {
+                'first_name': 'Екатерина',
+                'last_name': 'Смирнова',
+                'middle_name': 'Николаевна',
+                'email': 'katya@mail.ru',
+                'birth_date': '2000-10-18',
+                'is_study': True,
+                'group': self.group1.id,
+                'slug': 'zernov',
+                'photo': pict,
+                'user': self.user1.id
+            }
+            response = self.client.post(self.addstudent_url, data)
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
+        self.assertEquals(Student.objects.filter(last_name='Смирнова').count(), 0)
+        self.assertEquals(Student.objects.all().count(), 1)
+
+    def test_post_delete_view(self):
+        self.client.force_login(self.user1)
+        self.assertEquals(Student.objects.all().count(), 1)
+        response = self.client.post(reverse('delete_student', args=str(self.student1.pk)))
+        self.assertEqual(response.status_code, status.HTTP_302_FOUND)
+        self.assertEquals(Student.objects.all().count(), 0)
+
+    def test_post_negative_delete_view(self):
+        self.client.force_login(self.user1)
+        self.assertEquals(Student.objects.all().count(), 1)
+        response = self.client.post(reverse('delete_student', args='5'))
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+        self.assertEquals(Student.objects.all().count(), 1)
